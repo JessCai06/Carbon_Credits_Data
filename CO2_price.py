@@ -12,9 +12,8 @@ def average(list):
             sum+=val
     return float(sum)/len(list)
 
-#work here: create new csv file with the following indicators (all based on USD not EURO)
-#price: mean, minimum, q1, q3, maximum prices of each year 
-# create opaqued graph with each indicator
+# price: mean, minimum, q1, q3, maximum prices of each year 
+# create an opaqued graph with each indicator
 df = pd.read_csv("carbon stuff workbook - European Credit Prices (1).csv")
 indices = [i for i in range(0, df.shape[0])]
 df = df.assign(index = indices)
@@ -36,18 +35,13 @@ for c in range(0, len(needed_col)):
     year_data = []
     for i in range(0, df.shape[0]):
         if df["Date"][i].find(str(years_list[current_indx_yearlist]))!= -1:
-            #print(needed_col[c], i, df[needed_col[c]][i])
             year_data.append(df[needed_col[c]][i])
         else:
-            #print(sum(year_data), max(year_data), len(year_data), average(year_data))
             indicator.append(average(year_data))
             current_indx_yearlist = current_indx_yearlist+1
             year_data = []
     indicator.append(sum(year_data)/len(year_data))
 
-# for c in range(0, len(needed_col)):
-#     indicator = dict[needed_col[c]]
-#     print(len(indicator), len(years_list))
 DF = pd.DataFrame(dict)
 DF.to_csv('annual_mean_CO2_prices_by_ETS.csv')
 
